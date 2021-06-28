@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "git_modified_lines/version"
-require 'set'
+require "set"
 
 module GitModifiedLines
   module_function
@@ -22,12 +22,12 @@ module GitModifiedLines
   def extract_modified_lines(file_path, options)
     lines = Set.new
 
-    flags = '--cached' if options[:staged]
+    flags = "--cached" if options[:staged]
     refs = options[:refs]
-    subcmd = options[:subcmd] || 'diff'
+    subcmd = options[:subcmd] || "diff"
 
-    `git #{subcmd} --no-color --no-ext-diff -U0 #{flags} #{refs} -- "#{file_path}"`.
-      scan(DIFF_HUNK_REGEX) do |start_line, lines_added|
+    `git #{subcmd} --no-color --no-ext-diff -U0 #{flags} #{refs} -- "#{file_path}"`
+      .scan(DIFF_HUNK_REGEX) do |start_line, lines_added|
       lines_added = (lines_added || 1).to_i # When blank, one line was added
       cur_line = start_line.to_i
 
@@ -45,15 +45,15 @@ module GitModifiedLines
   # @param options [Hash]
   # @return [Array<String>] list of absolute file paths
   def modified_files(options)
-    flags = '--cached' if options[:staged]
+    flags = "--cached" if options[:staged]
     refs = options[:refs]
-    subcmd = options[:subcmd] || 'diff'
+    subcmd = options[:subcmd] || "diff"
 
-    `git #{subcmd} --name-only -z --diff-filter=ACMR --ignore-submodules=all #{flags} #{refs}`.
-      split("\0").
-      map(&:strip).
-      reject(&:empty?).
-      map { |relative_file| File.expand_path(relative_file) }
+    `git #{subcmd} --name-only -z --diff-filter=ACMR --ignore-submodules=all #{flags} #{refs}`
+      .split("\0")
+      .map(&:strip)
+      .reject(&:empty?)
+      .map { |relative_file| File.expand_path(relative_file) }
   end
 
   # Returns the name of the currently checked out branch.

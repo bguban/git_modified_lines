@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'tmpdir'
+require "tmpdir"
 
 # Helpers for creating temporary repositories and directories for testing.
 module GitSpecHelpers
@@ -12,13 +12,12 @@ module GitSpecHelpers
   # @param options [Hash]
   # @return [String] path of the repository
   def repo(options = {})
-    directory('some-repo') do
-      create_cmd = 'git init'
+    directory("some-repo") do
+      create_cmd = "git init"
       create_cmd += " --template #{options[:template_dir]}" if options[:template_dir]
       create_cmd += " --separate-git-dir #{options[:git_dir]}" if options[:git_dir]
 
-      result = `#{create_cmd}`
-      # raise "Unable to create repo: #{result.stderr}" unless result.success?
+      `#{create_cmd}`
 
       # Need to define user info since some CI contexts don't have defaults set
       `git config --local user.name "Overcommit Tester"`
@@ -42,7 +41,7 @@ module GitSpecHelpers
   # @param options [Hash]
   # @option options [Boolean] :append whether to append to existing file
   def echo(text, file, options = {})
-    mode = options[:append] ? 'a' : 'w'
+    mode = options[:append] ? "a" : "w"
     File.open(file, mode) { |f| f.puts(text) }
   end
 
@@ -59,7 +58,7 @@ module GitSpecHelpers
   #
   # @param name [String] base name of the directory
   # @return [String] path of the directory that was created
-  def directory(name = 'some-dir', &block)
+  def directory(name = "some-dir", &block)
     tmpdir = Dir.mktmpdir.tap do |path|
       Dir.chdir(path) do
         Dir.mkdir(name)

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require "git_modified_lines"
-require 'rspec/core/memoized_helpers'
+require "rspec/core/memoized_helpers"
 
-Dir[File.dirname(__FILE__) + '/support/**/*.rb'].sort.each { |f| require f }
+Dir[File.dirname(__FILE__) + "/support/**/*.rb"].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.include GitSpecHelpers
@@ -14,10 +14,10 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.expect_with :rspec do |c|
-    c.syntax = [:expect, :should]
+    c.syntax = %i[expect should]
   end
 
   config.mock_with :rspec do |c|
-    c.syntax = [:expect, :should]
+    c.syntax = %i[expect should]
   end
 end

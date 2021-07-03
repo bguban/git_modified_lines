@@ -27,10 +27,10 @@ Or install it yourself as:
 ```ruby
 cur_branch = GitModifiedLines.current_branch # => "test_branch"
 
-GitModifiedLines.modified_files(ref: "master...#{cur_branch}") 
+GitModifiedLines.modified_files(refs: "master...#{cur_branch}") 
 # => ["/Users/bguban/projects/git_modified_lines/README.md"]
 
-GitModifiedLines.extract_modified_lines('README.md', ref: "master...#{cur_branch}")
+GitModifiedLines.extract_modified_lines('README.md', refs: "master...#{cur_branch}")
 #=> #<Set: {3, 10, 23, 24, 25, 26, 27, 28, 29, 30}>
 ```
 
